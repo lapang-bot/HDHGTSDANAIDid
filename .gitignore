@@ -1,1 +1,17 @@
-# File .gitignore kosong, tidak ada yang diabaikan.
+node_modules/
+.env
+.env.local
+*.log
+.DS_Store
+Thumbs.db
+/dist/
+/build/
+.cache/
+.vscode/
+.idea/
+package-lock.json
+yarn.lock
+*.tmp
+*.temp
+*.css.map
+*.js.map
