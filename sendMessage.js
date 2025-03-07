@@ -1,10 +1,16 @@
+require('dotenv').config(); // Load environment variables from .env file
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
   const { chatId, message } = req.body;
-  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const botToken = process.env.TELEGRAM_BOT_TOKEN; // Token diambil dari environment variables
+
+  if (!botToken) {
+    return res.status(500).json({ success: false, message: 'Telegram bot token is missing.' });
+  }
 
   try {
     const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
